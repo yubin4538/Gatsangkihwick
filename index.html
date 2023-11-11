@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/multi-style-layer.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/__0.js"></script>
+        <script src="data/7_1.js"></script>
+        <script src="data/__Slope_DN_2.js"></script>
+        <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+
+            if (e.target.feature.geometry.type === 'LineString') {
+              highlightLayer.setStyle({
+                color: '#ffff00',
+              });
+            } else {
+              highlightLayer.setStyle({
+                fillColor: '#ffff00',
+                fillOpacity: 1
+              });
+            }
+        }
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        })
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
+        var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+            if (bounds_group.getLayers().length) {
+                map.fitBounds(bounds_group.getBounds());
+            }
+        }
+        function pop___0(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>EMD_CD</strong><br />' + (feature.properties['EMD_CD'] !== null ? autolinker.link(feature.properties['EMD_CD'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>COL_ADM_SE</strong><br />' + (feature.properties['COL_ADM_SE'] !== null ? autolinker.link(feature.properties['COL_ADM_SE'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>EMD_NM</strong><br />' + (feature.properties['EMD_NM'] !== null ? autolinker.link(feature.properties['EMD_NM'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>SGG_OID</strong><br />' + (feature.properties['SGG_OID'] !== null ? autolinker.link(feature.properties['SGG_OID'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>result</strong><br />' + (feature.properties['result'] !== null ? autolinker.link(feature.properties['result'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style___0_0(feature) {
+            if (feature.properties['result'] >= 0.000000 && feature.properties['result'] <= 1.110000 ) {
+                return {
+                pane: 'pane___0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(247,251,255,0.8)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['result'] >= 1.110000 && feature.properties['result'] <= 1.873333 ) {
+                return {
+                pane: 'pane___0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(115,178,216,0.8)',
+                interactive: true,
+            }
+            }
+            if (feature.properties['result'] >= 1.873333 && feature.properties['result'] <= 3.330000 ) {
+                return {
+                pane: 'pane___0',
+                opacity: 1,
+                color: 'rgba(0,0,0,0.8)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(8,48,107,0.8)',
+                interactive: true,
+            }
+            }
+        }
+        map.createPane('pane___0');
+        map.getPane('pane___0').style.zIndex = 400;
+        map.getPane('pane___0').style['mix-blend-mode'] = 'normal';
+        var layer___0 = new L.geoJson(json___0, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json___0',
+            layerName: 'layer___0',
+            pane: 'pane___0',
+            onEachFeature: pop___0,
+            style: style___0_0,
+        });
+        bounds_group.addLayer(layer___0);
+        map.addLayer(layer___0);
+        function pop_7_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>일시</strong><br />' + (feature.properties['일시'] !== null ? autolinker.link(feature.properties['일시'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>법정동</strong><br />' + (feature.properties['법정동'] !== null ? autolinker.link(feature.properties['법정동'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>위도</strong><br />' + (feature.properties['위도'] !== null ? autolinker.link(feature.properties['위도'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>경도</strong><br />' + (feature.properties['경도'] !== null ? autolinker.link(feature.properties['경도'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>violation</strong><br />' + (feature.properties['violation'] !== null ? autolinker.link(feature.properties['violation'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Accident</strong><br />' + (feature.properties['Accident'] !== null ? autolinker.link(feature.properties['Accident'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_7_1_0() {
+            return {
+                pane: 'pane_7_1',
+                radius: 13.2,
+                opacity: 1,
+                color: 'rgba(182,6,8,0.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,27,27,1.0)',
+                interactive: true,
+            }
+        }
+        function style_7_1_1() {
+            return {
+                pane: 'pane_7_1',
+                radius: 14.4,
+                opacity: 1,
+                color: 'rgba(211,10,10,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(211,10,10,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane_7_1');
+        map.getPane('pane_7_1').style.zIndex = 401;
+        map.getPane('pane_7_1').style['mix-blend-mode'] = 'normal';
+        var layer_7_1 = new L.geoJson.multiStyle(json_7_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_7_1',
+            layerName: 'layer_7_1',
+            pane: 'pane_7_1',
+            onEachFeature: pop_7_1,
+            pointToLayers: [function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_7_1_0(feature));
+            },function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.shapeMarker(latlng, style_7_1_1(feature));
+            },
+        ]});
+        bounds_group.addLayer(layer_7_1);
+        map.addLayer(layer_7_1);
+        function pop___Slope_DN_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2"><strong>fac_name</strong><br />' + (feature.properties['fac_name'] !== null ? autolinker.link(feature.properties['fac_name'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>address</strong><br />' + (feature.properties['address'] !== null ? autolinker.link(feature.properties['address'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>point_x</strong><br />' + (feature.properties['point_x'] !== null ? autolinker.link(feature.properties['point_x'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>point_y</strong><br />' + (feature.properties['point_y'] !== null ? autolinker.link(feature.properties['point_y'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2"><strong>Slope(DN)</strong><br />' + (feature.properties['Slope(DN)'] !== null ? autolinker.link(feature.properties['Slope(DN)'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style___Slope_DN_2_0() {
+            return {
+                pane: 'pane___Slope_DN_2',
+                radius: 3.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(255,255,134,1.0)',
+                interactive: true,
+            }
+        }
+        map.createPane('pane___Slope_DN_2');
+        map.getPane('pane___Slope_DN_2').style.zIndex = 402;
+        map.getPane('pane___Slope_DN_2').style['mix-blend-mode'] = 'normal';
+        var layer___Slope_DN_2 = new L.geoJson(json___Slope_DN_2, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json___Slope_DN_2',
+            layerName: 'layer___Slope_DN_2',
+            pane: 'pane___Slope_DN_2',
+            onEachFeature: pop___Slope_DN_2,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style___Slope_DN_2_0(feature));
+            },
+        });
+        bounds_group.addLayer(layer___Slope_DN_2);
+        map.addLayer(layer___Slope_DN_2);
+        setBounds();
+        var i = 0;
+        layer___Slope_DN_2.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((layer.feature.properties['fac_name'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + layer.feature.properties['fac_name']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css___Slope_DN_2'});
+            labels.push(layer);
+            totalMarkers += 1;
+              layer.added = true;
+              addLabel(layer, i);
+              i++;
+        });
+        resetLabels([layer___0,layer_7_1,layer___Slope_DN_2]);
+        map.on("zoomend", function(){
+            resetLabels([layer___0,layer_7_1,layer___Slope_DN_2]);
+        });
+        map.on("layeradd", function(){
+            resetLabels([layer___0,layer_7_1,layer___Slope_DN_2]);
+        });
+        map.on("layerremove", function(){
+            resetLabels([layer___0,layer_7_1,layer___Slope_DN_2]);
+        });
+        </script>
+    </body>
+</html>
